@@ -59,7 +59,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
     // Resize Toggles
     BOOL isImageResized;
     BOOL isSaveWaitingForResizedImage;
-    BOOL isRotateWaitingForResizedImage;
     
     // Capture Toggle
     BOOL isCapturingImage;
@@ -90,6 +89,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
 // View Properties
 @property (strong, nonatomic) UIView * imageStreamV;
 @property (strong, nonatomic) UIImageView * capturedImageV;
+@property (strong, nonatomic) UIImage * capturedImage;
 
 @end
 
@@ -265,7 +265,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
 	if (!input) {
 		// Handle the error appropriately.
 		NSLog(@"SC: ERROR: trying to open camera: %@", error);
-        [_delegate simpleCam:self didFinishWithImage:_capturedImageV.image];
+        [_delegate simpleCam:self didFinishWithImage:_capturedImage];
 	}
     
 	[_mySesh addInput:input];
@@ -568,6 +568,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
          
          isCapturingImage = NO;
          _capturedImageV.image = [self crop:capturedImage];
+         _capturedImage = _capturedImageV.image;
          // show captured image view
          _capturedImageV.alpha = 1.0f;
          // hide image stream view
@@ -576,12 +577,36 @@ static CGFloat optionUnavailableAlpha = 0.2;
          
          // If we have disabled the photo preview directly fire the delegate callback, otherwise, show user a preview
          _disablePhotoPreview ? [self photoCaptured] : [self drawControls];
+         
+         if ([(NSObject *)_delegate respondsToSelector:@selector(simpleCam:didCaptureImage:)]) {
+             [_delegate simpleCam:self didCaptureImage:_capturedImage];
+         }
      }];
+}
+
+- (BOOL) retakePhoto {
+    if (_capturedImageV.image) {
+        _imageStreamV.alpha = 1.0f;
+        _capturedImageV.contentMode = UIViewContentModeScaleAspectFill;
+        _capturedImageV.backgroundColor = [UIColor clearColor];
+        _capturedImageV.image = nil;
+        _capturedImage = nil;
+        
+        isImageResized = NO;
+        isSaveWaitingForResizedImage = NO;
+        
+        [self.view insertSubview:_rotationCover belowSubview:_imageStreamV];
+        
+        [self drawControls];
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (void) photoCaptured {
     if (isImageResized) {
-        [_delegate simpleCam:self didFinishWithImage:_capturedImageV.image];
+        [_delegate simpleCam:self didFinishWithImage:_capturedImage];
     }
     else {
         isSaveWaitingForResizedImage = YES;
@@ -618,22 +643,8 @@ static CGFloat optionUnavailableAlpha = 0.2;
 }
 
 - (void) backBtnPressed:(id)sender {
-    if (_capturedImageV.image) {
-        _imageStreamV.alpha = 1.0f;
-        _capturedImageV.contentMode = UIViewContentModeScaleAspectFill;
-        _capturedImageV.backgroundColor = [UIColor clearColor];
-        _capturedImageV.image = nil;
-        
-        isRotateWaitingForResizedImage = NO;
-        isImageResized = NO;
-        isSaveWaitingForResizedImage = NO;
-        
-        [self.view insertSubview:_rotationCover belowSubview:_imageStreamV];
-        
-        [self drawControls];
-    }
-    else {
-        [_delegate simpleCam:self didFinishWithImage:_capturedImageV.image];
+    if (![self retakePhoto]) {
+        [_delegate simpleCam:self didFinishWithImage:_capturedImage];
     }
 }
 
@@ -758,6 +769,27 @@ static CGFloat optionUnavailableAlpha = 0.2;
 
 #pragma mark RESIZE IMAGE
 
+- (CGRect) calculateBoundsForSource:(CGSize)src withTarget:(CGSize)target {
+    CGRect result = CGRectMake(0, 0, 0, 0);
+    
+    CGFloat scaleX1 = target.width;
+    CGFloat scaleY1 = (src.height * target.width) / src.width;
+    CGFloat scaleX2 = (src.width * target.height) / src.height;
+    CGFloat scaleY2 = target.height;
+    
+    if (scaleX2 > target.width) {
+        result.size.width = round(2.0f * scaleX1) / 2.0f;
+        result.size.height = round(2.0f * scaleY1) / 2.0f;
+    } else {
+        result.size.width = round(2.0f * scaleX2) / 2.0f;
+        result.size.height = round(2.0f * scaleY2) / 2.0f;
+    }
+    result.origin.x = round(target.width - result.size.width) / 2.0f;
+    result.origin.y = round(target.height - result.size.height) / 2.0f;
+    
+    return result;
+}
+
 - (void) resizeImage {
     
     // Set Orientation
@@ -768,31 +800,8 @@ static CGFloat optionUnavailableAlpha = 0.2;
     if (_isSquareMode) size = _squareV.bounds.size;
     
     // Set Draw Rect
-    CGRect drawRect = (isLandscape) ? ({
-        // IS CURRENTLY LANDSCAPE
-        
-        // targetHeight is the height our image would need to be at the current screenwidth if we maintained the image ratio.
-        CGFloat targetHeight = screenHeight * 0.75; // 3:4 ratio
-        
-        // we have to draw around the context of the screen
-        // our final image will be the image that is left in the frame of the context
-        // by drawing outside it, we remove the edges of the picture
-        CGFloat offsetTop = (targetHeight - size.height) / 2;
-        CGFloat offsetLeft = (screenHeight - size.width) / 2;
-        CGRectMake(-offsetLeft, -offsetTop, screenHeight, targetHeight);
-    }) : ({
-        // IS CURRENTLY PORTRAIT
-        
-        // targetWidth is the width our image would need to be at the current screenheight if we maintained the image ratio.
-        CGFloat targetWidth = screenHeight * 0.75; // 3:4 ratio
-        
-        // we have to draw around the context of the screen
-        // our final image will be the image that is left in the frame of the context
-        // by drawing outside it, we remove the edges of the picture
-        CGFloat offsetTop = (screenHeight - size.height) / 2;
-        CGFloat offsetLeft = (targetWidth - size.width) / 2;
-        CGRectMake(-offsetLeft, -offsetTop, targetWidth, screenHeight);
-    });
+    CGRect drawRect = [self calculateBoundsForSource:_capturedImageV.image.size
+                                          withTarget:size];;
     
     // START CONTEXT
     UIGraphicsBeginImageContextWithOptions(size, YES, 2.0);
@@ -801,10 +810,8 @@ static CGFloat optionUnavailableAlpha = 0.2;
     UIGraphicsEndImageContext();
     // END CONTEXT
     
-    
     // See if someone's waiting for resized image
-    if (isSaveWaitingForResizedImage == YES) [_delegate simpleCam:self didFinishWithImage:_capturedImageV.image];
-    if (isRotateWaitingForResizedImage == YES) _capturedImageV.contentMode = UIViewContentModeScaleAspectFit;
+    if (isSaveWaitingForResizedImage == YES) [_delegate simpleCam:self didFinishWithImage:_capturedImage];
     
     isImageResized = YES;
 }
@@ -839,7 +846,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
         [self.view insertSubview:_rotationCover belowSubview:_capturedImageV];
         
         if (!isImageResized) {
-            isRotateWaitingForResizedImage = YES;
             [self resizeImage];
         }
     }
@@ -892,11 +898,11 @@ static CGFloat optionUnavailableAlpha = 0.2;
         // Clean Up
         isImageResized = NO;
         isSaveWaitingForResizedImage = NO;
-        isRotateWaitingForResizedImage = NO;
         
         [_mySesh stopRunning];
         _mySesh = nil;
         
+        _capturedImage = nil;
         _capturedImageV.image = nil;
         [_capturedImageV removeFromSuperview];
         _capturedImageV = nil;

@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UILabel * tapLabel;
 @property (nonatomic,strong) SimpleCam *simpleCam;
 @property (nonatomic) BOOL takePhotoImmediately;
+@property (strong, nonatomic) UIView * overlayView;
 
 @end
 
@@ -131,10 +132,43 @@
 
 - (void) handleTap:(UITapGestureRecognizer *)tap {
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"SimpleCam Options" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Default", @"Take Photo Immediately", @"Custom", nil];
-    [sheet showInView:self.view];
+    //UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"SimpleCam Options" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Default", @"Take Photo Immediately", @"Custom", nil];
+    //[sheet showInView:self.view];
     
+    SimpleCam * simpleCam = [SimpleCam new];
+    simpleCam.delegate= self;
     
+    [self presentViewController:simpleCam animated:YES completion:nil];
+    
+//    self.simpleCam = [SimpleCam new];
+//    self.simpleCam.delegate= self;
+//    [self.simpleCam setHideAllControls:YES];
+//    //[self.simpleCam setDisablePhotoPreview:YES];
+//    
+//    [self.simpleCam setEnableZoom:YES];
+//    [self.simpleCam setEnableCameraCaptureAnimation:YES];
+//    
+//    CGRect frame;
+//    frame.size = CGSizeMake(self.view.frame.size.width, 120);
+//    frame.origin.x = 0;
+//    frame.origin.y = self.view.frame.size.height -frame.size.height;
+//    _overlayView = [[UIView alloc] initWithFrame:frame];
+//    _overlayView.backgroundColor = [UIColor blackColor];
+//    _overlayView.alpha = 0.3;
+//    _overlayView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+//    
+//    UIImage *image = [UIImage imageNamed:@"shutter"];
+//    frame.size = image.size;
+//    frame.origin.x = (_overlayView.frame.size.width -frame.size.width)/2;
+//    frame.origin.y = (_overlayView.frame.size.height -frame.size.height)/2;
+//    UIButton *button = [[UIButton alloc] initWithFrame:frame];
+//    [button setImage:image forState:UIControlStateNormal];
+//    [button addTarget:self action:@selector(actionPhoto) forControlEvents:UIControlEventTouchUpInside];
+//    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+//    [_overlayView addSubview:button];
+//    [self.simpleCam.view addSubview:_overlayView];
+//    
+//    [self presentViewController:self.simpleCam animated:YES completion:nil];
 }
 
 #pragma mark SIMPLE CAM DELEGATE

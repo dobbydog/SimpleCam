@@ -63,6 +63,12 @@
  */
 - (void) simpleCamDidLoadCameraIntoView:(SimpleCam *)simpleCam;
 
+/*!
+ Called when the camera successfully takes an image. Can be user to conditionally 
+ change an overlay UI when in preview mode
+ */
+- (void) simpleCam:(SimpleCam *)simpleCam didCaptureImage:(UIImage *)image;
+
 @end
 
 @interface SimpleCam : UIViewController
@@ -117,6 +123,11 @@
  Use this method for programmatically acquire a photo
  */
 - (void) capturePhoto;
+
+/*
+ Use this method to programmatically allow you to retake a photo
+ */
+- (BOOL) retakePhoto;
 
 
 @end
