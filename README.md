@@ -1,10 +1,6 @@
-<h1 align="center">SimpleCam</h1>
+<h1 align="center">SimpleCam iPad</h1>
 
-<h4 align="center">A Memory Efficient Drop In Replacement / Alternative for the Native UIImagePicker Camera</h4>
-
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/SimpleCamCover.png?raw=true" width=320></img> 
-</p>
+<h4 align="center">A Memory Efficient Replacement for the Native UIImagePicker Camera</h4>
 
 <h3>Why Do I Need It?</h3>
 
@@ -14,40 +10,7 @@ If you're capturing photographs with UIImagePicker, or via AVFoundation on the h
 
 I hope you find the project as useful as I did!
 
-<h3>Features</h3>
-<ul>
-  <li>iOS 7 Inspired Design</li>
-  <li>3.5” & 4” Screen Compatibility</li>
-  <li>Low Memory Usage</li>
-  <li>Drag & Drop Installation</li> 
-  <li>Portrait/Landscape Views</li> 
-  <li>Front/Rear Camera</li> 
-  <li>Touch to Focus</li> 
-  <li>Controllable Flash</li>
-  <li>Auto Crop / Scale</li>
-  <li>Selfies Don't Flip</li>
-</ul>
-
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/placeit.png?raw=true" width=860></img> 
-</p>
-
-<p>
-Icons generously provided by PixelLove:
-</p>
-<p>
-<a href="http://pixellove.com" target="_blank"> 
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/Attribution_PixelLove.png?raw=true" width=200></img>
-</a> 
-</p>
-
-### CocoaPods
-
-```
-pod 'SimpleCam', '~> 0.1'
-```
-
-#Adding SimpleCam to Your Project
+#Adding SimpleCam iPad to Your Project
 
 ###1. Add SimpleCam Folder to Xcode
 
@@ -116,55 +79,7 @@ If you'd like to launch simple cam when the user presses a button, you could add
 ```
 That's it, it's as  simple as that.  SimpleCam will take care of everything else!
 
-#ChangeLog
+#Notes
 
-v1.01 Released 19 May 2014
+- Forked from https://github.com/LoganWright/SimpleCam
 
-Thanks @capezzbr & @dkhamsing for their contributions to this commit!
-
-- You can now capture photos programmatically by calling `[simpleCam capturePhoto]`
-- Now supports an overlay control system (more interaction possibilities coming soon!)
-- Disable Photo Preview to save photos as soon as they're captured: `simpleCam.disablePhotoPreview = YES`
-- New delegate method to be notified of when the camera stream is visible:
-
-```ObjC
-- (void) simpleCamDidLoadCameraIntoView:(SimpleCam *)simpleCam {
-    NSLog(@"Camera loaded ... ");
-}
-```
-
-#Screen Shots
-
-###Portrait
-<h5 align="center">Camera (About To Capture)</h5>
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/portrait_Camera.png?raw=true" width=320></img> 
-</p>
-
-<h5 align="center">Preview (Shows Captured Image)</h5>
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/portrait_Preview.png?raw=true" width=320></img> 
-</p>
-
-<h5 align="center">Preview - Rotated (Maintains Captured Image Ratio)</h5>
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/portrait_RotatedPreview.png?raw=true" width=568></img> 
-</p>
-
-
-###Landscape
-
-<h5 align="center">Camera (About To Capture)</h5>
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/landscape_Camera.png?raw=true" width=568></img> 
-</p>
-
-<h5 align="center">Preview (Shows Captured Image)</h5>
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/landscape_Preview.png?raw=true" width=568></img> 
-</p>
-
-<h5 align="center">Preview - Rotated (Maintains Captured Image Ratio)</h5>
-<p align="center">
-  <img src="https://github.com/LoganWright/SimpleCam/blob/master/SimpleCam/Images/landscape_RotatedPreview.png?raw=true" width=320></img> 
-</p>
