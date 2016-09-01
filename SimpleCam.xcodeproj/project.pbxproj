@@ -21,7 +21,6 @@
 		8058D50B18E9C72F0031A3B1 /* SimpleCamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8058D50A18E9C72F0031A3B1 /* SimpleCamTests.m */; };
 		8058D51D18E9C7C70031A3B1 /* CameraRotate.png in Resources */ = {isa = PBXBuildFile; fileRef = 8058D51618E9C7C70031A3B1 /* CameraRotate.png */; };
 		8058D51E18E9C7C70031A3B1 /* Download.png in Resources */ = {isa = PBXBuildFile; fileRef = 8058D51718E9C7C70031A3B1 /* Download.png */; };
-		8058D51F18E9C7C70031A3B1 /* Lightening.png in Resources */ = {isa = PBXBuildFile; fileRef = 8058D51818E9C7C70031A3B1 /* Lightening.png */; };
 		8058D52018E9C7C70031A3B1 /* Previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 8058D51918E9C7C70031A3B1 /* Previous.png */; };
 		8058D52118E9C7C70031A3B1 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8058D51A18E9C7C70031A3B1 /* LICENSE.txt */; };
 		8058D52218E9C7C70031A3B1 /* SimpleCam.m in Sources */ = {isa = PBXBuildFile; fileRef = 8058D51C18E9C7C70031A3B1 /* SimpleCam.m */; };
@@ -67,7 +66,6 @@
 		8058D50A18E9C72F0031A3B1 /* SimpleCamTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleCamTests.m; sourceTree = "<group>"; };
 		8058D51618E9C7C70031A3B1 /* CameraRotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CameraRotate.png; sourceTree = "<group>"; };
 		8058D51718E9C7C70031A3B1 /* Download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Download.png; sourceTree = "<group>"; };
-		8058D51818E9C7C70031A3B1 /* Lightening.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lightening.png; sourceTree = "<group>"; };
 		8058D51918E9C7C70031A3B1 /* Previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Previous.png; sourceTree = "<group>"; };
 		8058D51A18E9C7C70031A3B1 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		8058D51B18E9C7C70031A3B1 /* SimpleCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCam.h; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 			children = (
 				8058D51618E9C7C70031A3B1 /* CameraRotate.png */,
 				8058D51718E9C7C70031A3B1 /* Download.png */,
-				8058D51818E9C7C70031A3B1 /* Lightening.png */,
 				8058D51918E9C7C70031A3B1 /* Previous.png */,
 			);
 			path = Icons;
@@ -300,7 +297,6 @@
 			files = (
 				8058D51D18E9C7C70031A3B1 /* CameraRotate.png in Resources */,
 				8058D4F018E9C72F0031A3B1 /* InfoPlist.strings in Resources */,
-				8058D51F18E9C7C70031A3B1 /* Lightening.png in Resources */,
 				8058D4F818E9C72F0031A3B1 /* Images.xcassets in Resources */,
 				8058D54A18E9D1C70031A3B1 /* landscape_Preview.png in Resources */,
 				8058D52018E9C7C70031A3B1 /* Previous.png in Resources */,

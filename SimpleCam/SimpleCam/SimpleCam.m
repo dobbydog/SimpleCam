@@ -76,7 +76,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
 // Controls
 @property (strong, nonatomic) UIButton * backBtn;
 @property (strong, nonatomic) UIButton * captureBtn;
-@property (strong, nonatomic) UIButton * flashBtn;
 @property (strong, nonatomic) UIButton * switchCameraBtn;
 @property (strong, nonatomic) UIButton * saveBtn;
 
@@ -107,7 +106,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
     }
     return self;
 }
-
 
 - (void)viewDidLoad {
     
@@ -284,21 +282,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
         _captureVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
     }
     
-    if (_isSquareMode) {
-        NSLog(@"SC: isSquareMode");
-        _squareV = [[UIView alloc]init];
-        _squareV.backgroundColor = [UIColor clearColor];
-        _squareV.layer.borderWidth = 4;
-        _squareV.layer.borderColor = [UIColor colorWithWhite:1 alpha:.8].CGColor;
-        _squareV.bounds = CGRectMake(0, 0, screenWidth, screenWidth);
-        _squareV.center = self.view.center;
-        _squareV.userInteractionEnabled = NO;
-        
-        _squareV.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-        
-        [self.view addSubview:_squareV];
-    }
-    
     // -- LOAD ROTATION COVERS BEGIN -- //
     /*
      Rotating causes a weird flicker, I'm in the process of looking for a better
@@ -340,7 +323,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
     // -- LOAD BUTTON IMAGES BEGIN -- //
     UIImage * previousImg = [UIImage imageNamed:@"Previous.png"];
     UIImage * downloadImg = [UIImage imageNamed:@"Download.png"];
-    UIImage * lighteningImg = [UIImage imageNamed:@"Lightening.png"];
     UIImage * cameraRotateImg = [UIImage imageNamed:@"CameraRotate.png"];
     // -- LOAD BUTTON IMAGES END -- //
     
@@ -350,12 +332,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
     [_backBtn setImage:previousImg forState:UIControlStateNormal];
     [_backBtn setTintColor:[self redColor]];
     [_backBtn setImageEdgeInsets:UIEdgeInsetsMake(9, 10, 9, 13)];
-    
-    _flashBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_flashBtn addTarget:self action:@selector(flashBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_flashBtn setImage:lighteningImg forState:UIControlStateNormal];
-    [_flashBtn setTintColor:[self redColor]];
-    [_flashBtn setImageEdgeInsets:UIEdgeInsetsMake(6, 9, 6, 9)];
     
     _switchCameraBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [_switchCameraBtn setImage:cameraRotateImg forState:UIControlStateNormal];
@@ -378,7 +354,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
     // -- LOAD BUTTONS END -- //
     
     // Stylize buttons
-    for (UIButton * btn in @[_backBtn, _captureBtn, _flashBtn, _switchCameraBtn, _saveBtn])  {
+    for (UIButton * btn in @[_backBtn, _captureBtn, _switchCameraBtn, _saveBtn])  {
         
         btn.bounds = CGRectMake(0, 0, 40, 40);
         btn.backgroundColor = [UIColor colorWithWhite:1 alpha:.96];
@@ -439,10 +415,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
             _captureBtn.center = CGPointMake(_backBtn.center.x + (_backBtn.bounds.size.width / 2) + offsetBetweenButtons + (_captureBtn.bounds.size.width / 2), centerY);
             
             // offset from capturebtn is '20'
-            _flashBtn.center = CGPointMake(_captureBtn.center.x + (_captureBtn.bounds.size.width / 2) + offsetBetweenButtons + (_flashBtn.bounds.size.width / 2), centerY);
-            
-            // offset from flashBtn is '20'
-            _switchCameraBtn.center = CGPointMake(_flashBtn.center.x + (_flashBtn.bounds.size.width / 2) + offsetBetweenButtons + (_switchCameraBtn.bounds.size.width / 2), centerY);
+            _switchCameraBtn.center = CGPointMake(_captureBtn.center.x + (_captureBtn.bounds.size.width / 2) + offsetBetweenButtons + (_switchCameraBtn.bounds.size.width / 2), centerY);
             
         }
         else {
@@ -458,10 +431,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
             _captureBtn.center = CGPointMake(centerX, _backBtn.center.y + (_backBtn.bounds.size.height / 2) + offsetBetweenButtons + (_captureBtn.bounds.size.height / 2));
             
             // offset from capturebtn is '20'
-            _flashBtn.center = CGPointMake(centerX, _captureBtn.center.y + (_captureBtn.bounds.size.height / 2) + offsetBetweenButtons + (_flashBtn.bounds.size.height / 2));
-            
-            // offset from flashBtn is '20'
-            _switchCameraBtn.center = CGPointMake(centerX, _flashBtn.center.y + (_flashBtn.bounds.size.height / 2) + offsetBetweenButtons + (_switchCameraBtn.bounds.size.height / 2));
+            _switchCameraBtn.center = CGPointMake(centerX, _captureBtn.center.y + (_captureBtn.bounds.size.height / 2) + offsetBetweenButtons + (_switchCameraBtn.bounds.size.height / 2));
         }
         
         // just so it's ready when we need it to be.
@@ -474,7 +444,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
         // If camera preview -- show preview controls / hide capture controls
         if (_capturedImageV.image) {
             // Hide
-            for (UIButton * btn in @[_captureBtn, _flashBtn, _switchCameraBtn]) btn.hidden = YES;
+            for (UIButton * btn in @[_captureBtn, _switchCameraBtn]) btn.hidden = YES;
             // Show
             _saveBtn.hidden = NO;
             
@@ -485,7 +455,7 @@ static CGFloat optionUnavailableAlpha = 0.2;
         // ELSE camera stream -- show capture controls / hide preview controls
         else {
             // Show
-            for (UIButton * btn in @[_flashBtn, _switchCameraBtn]) btn.hidden = NO;
+            for (UIButton * btn in @[_switchCameraBtn]) btn.hidden = NO;
             // Hide
             _saveBtn.hidden = YES;
             
@@ -493,9 +463,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
             _captureBtn.hidden = _hideCaptureButton;
             _backBtn.hidden = _hideBackButton;
         }
-        
-        [self evaluateFlashBtn];
-        
     } completion:nil];
 }
 
@@ -624,24 +591,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
     [self photoCaptured];
 }
 
-- (void) flashBtnPressed:(id)sender {
-    if ([_myDevice isFlashAvailable]) {
-        if (_myDevice.flashActive) {
-            if([_myDevice lockForConfiguration:nil]) {
-                _myDevice.flashMode = AVCaptureFlashModeOff;
-                [_flashBtn setTintColor:[self redColor]];
-            }
-        }
-        else {
-            if([_myDevice lockForConfiguration:nil]) {
-                _myDevice.flashMode = AVCaptureFlashModeOn;
-                [_flashBtn setTintColor:[self greenColor]];
-            }
-        }
-        [_myDevice unlockForConfiguration];
-    }
-}
-
 - (void) backBtnPressed:(id)sender {
     if (![self retakePhoto]) {
         [_delegate simpleCam:self didFinishWithImage:_capturedImage];
@@ -673,28 +622,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
             [_mySesh addInput:newInput];
             [_mySesh commitConfiguration];
         }
-        
-        // Need to reset flash btn
-        [self evaluateFlashBtn];
-    }
-}
-
-- (void) evaluateFlashBtn {
-    // Evaluate Flash Available?
-    if (_myDevice.isFlashAvailable) {
-        _flashBtn.alpha = optionAvailableAlpha;
-        
-        // Evaluate Flash Active?
-        if (_myDevice.isFlashActive) {
-            [_flashBtn setTintColor:[self greenColor]];
-        }
-        else {
-            [_flashBtn setTintColor:[self redColor]];
-        }
-    }
-    else {
-        _flashBtn.alpha = optionUnavailableAlpha;
-        [_flashBtn setTintColor:[self darkGreyColor]];
     }
 }
 
@@ -797,7 +724,6 @@ static CGFloat optionUnavailableAlpha = 0.2;
     
     // Set Size
     CGSize size = (isLandscape) ? CGSizeMake(screenHeight, screenWidth) : CGSizeMake(screenWidth, screenHeight);
-    if (_isSquareMode) size = _squareV.bounds.size;
     
     // Set Draw Rect
     CGRect drawRect = [self calculateBoundsForSource:_capturedImageV.image.size

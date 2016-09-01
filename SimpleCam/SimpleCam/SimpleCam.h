@@ -79,11 +79,6 @@
 @property (retain, nonatomic) id <SimpleCamDelegate> delegate;
 
 /*!
- Used if you'd like your pictures cropped to squareMode - defaults to NO (beta)
- */
-@property BOOL isSquareMode;
-
-/*!
  Allow to hide all controls (set to YES to show custom controls)
  */
 @property (nonatomic) BOOL hideAllControls;
