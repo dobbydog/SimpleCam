@@ -528,6 +528,16 @@ static CGFloat optionUnavailableAlpha = 0.2;
                  capturedImage = [[UIImage alloc] initWithCGImage:cgRef scale:1.0 orientation:UIImageOrientationDown];
              }
          }
+         else if (_myDevice == [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo][1]) {
+             // front camera active
+             
+             // flip to look the same as the camera
+             if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+                 capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationDown];
+             else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+                 capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationUp];
+             
+         }
          
          if (self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
              capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationLeft];
