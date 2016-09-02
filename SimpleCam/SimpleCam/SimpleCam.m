@@ -43,6 +43,7 @@
 static CGFloat optionUnavailableAlpha = 0.2;
 
 #import "SimpleCam.h"
+#import <ImageIO/ImageIO.h>
 
 @interface SimpleCam ()
 {
@@ -458,8 +459,9 @@ static CGFloat optionUnavailableAlpha = 0.2;
 }
 
 - (void) drawControls {
-    
     if (self.hideAllControls) {
+        [_verticalBackgroundLayer setHidden:YES];
+        [_horizontalBackgroundLayer setHidden:YES];
         return;
     }
     
@@ -526,19 +528,9 @@ static CGFloat optionUnavailableAlpha = 0.2;
                  capturedImage = [[UIImage alloc] initWithCGImage:cgRef scale:1.0 orientation:UIImageOrientationDown];
              }
          }
-         else if (_myDevice == [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo][1]) {
-             // front camera active
-             
-             // flip to look the same as the camera
-             if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-                 capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationLeftMirrored];
-             else {
-                 if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-                     capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationDownMirrored];
-                 else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-                     capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationUpMirrored];
-             }
-             
+         
+         if (self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+             capturedImage = [UIImage imageWithCGImage:capturedImage.CGImage scale:capturedImage.scale orientation:UIImageOrientationLeft];
          }
          
          isCapturingImage = NO;
@@ -798,11 +790,15 @@ static CGFloat optionUnavailableAlpha = 0.2;
         else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
             _captureVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
         }
-        
     }
     else {
         targetRect = CGRectMake(0, 0, screenWidth, screenHeight);
-        _captureVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        
+        if (toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+            _captureVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+        } else {
+            _captureVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        }
     }
     
     // reset zoom
