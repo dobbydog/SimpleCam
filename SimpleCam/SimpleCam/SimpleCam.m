@@ -40,7 +40,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-static CGFloat optionAvailableAlpha = 0.6;
 static CGFloat optionUnavailableAlpha = 0.2;
 
 #import "SimpleCam.h"
@@ -69,15 +68,15 @@ static CGFloat optionUnavailableAlpha = 0.2;
 
 // Used to cover animation flicker during rotation
 @property (strong, nonatomic) UIView * rotationCover;
-
-// Square Border
-@property (strong, nonatomic) UIView * squareV;
+@property (strong, nonatomic) UIView * verticalBackgroundLayer;
+@property (strong, nonatomic) UIView * horizontalBackgroundLayer;
 
 // Controls
 @property (strong, nonatomic) UIButton * backBtn;
 @property (strong, nonatomic) UIButton * captureBtn;
 @property (strong, nonatomic) UIButton * switchCameraBtn;
 @property (strong, nonatomic) UIButton * saveBtn;
+@property (strong, nonatomic) UIButton * retakeBtn;
 
 // AVFoundation Properties
 @property (strong, nonatomic) AVCaptureSession * mySesh;
@@ -321,55 +320,130 @@ static CGFloat optionUnavailableAlpha = 0.2;
 - (void) loadControls {
     
     // -- LOAD BUTTON IMAGES BEGIN -- //
-    UIImage * previousImg = [UIImage imageNamed:@"Previous.png"];
-    UIImage * downloadImg = [UIImage imageNamed:@"Download.png"];
     UIImage * cameraRotateImg = [UIImage imageNamed:@"CameraRotate.png"];
+    UIImage * captureImg = [UIImage imageNamed:@"shutter"];
     // -- LOAD BUTTON IMAGES END -- //
     
-    // -- LOAD BUTTONS BEGIN -- //
-    _backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    // -- VERTICAL BACKGROUND LAYER BEGIN -- //
+    CGRect frame;
+    CGFloat width = screenHeight * 0.10;
+    frame.size = CGSizeMake(width, self.view.frame.size.height);
+    frame.origin.x = self.view.frame.size.width - width;
+    frame.origin.y = 0;
+    self.verticalBackgroundLayer = [[UIView alloc] initWithFrame:frame];
+    self.verticalBackgroundLayer.backgroundColor = [UIColor blackColor];
+    self.verticalBackgroundLayer.backgroundColor = [UIColor colorWithRed:0
+                                                                 green:0
+                                                                  blue:0
+                                                                 alpha:0.3f];
+    self.verticalBackgroundLayer.autoresizingMask =
+        UIViewAutoresizingFlexibleHeight |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleLeftMargin;
+    
+    [self.view addSubview:self.verticalBackgroundLayer];
+    
+    // Back button
+    frame.size = CGSizeMake(120, 40);
+    frame.origin.x = (self.verticalBackgroundLayer.frame.size.width - frame.size.width)/2;
+    frame.origin.y = self.verticalBackgroundLayer.frame.size.height - frame.size.height - 20;
+    _backBtn = [[UIButton alloc] initWithFrame:frame];
+    [_backBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+    [_backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _backBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    _backBtn.titleLabel.numberOfLines = 0;
+    _backBtn.titleLabel.minimumScaleFactor = .5;
+    _backBtn.bounds = CGRectMake(0, 0, 120, 40);
     [_backBtn addTarget:self action:@selector(backBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_backBtn setImage:previousImg forState:UIControlStateNormal];
-    [_backBtn setTintColor:[self redColor]];
-    [_backBtn setImageEdgeInsets:UIEdgeInsetsMake(9, 10, 9, 13)];
+    _backBtn.autoresizingMask =
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+    [self.verticalBackgroundLayer addSubview:_backBtn];
     
-    _switchCameraBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    // Switch camera button
+    frame.size = cameraRotateImg.size;
+    frame.origin.x = (self.verticalBackgroundLayer.frame.size.width - frame.size.width)/2;
+    frame.origin.y = 20;
+    _switchCameraBtn = [[UIButton alloc] initWithFrame:frame];
     [_switchCameraBtn setImage:cameraRotateImg forState:UIControlStateNormal];
-    [_switchCameraBtn setTintColor:[self blueColor]];
-    [_switchCameraBtn setImageEdgeInsets:UIEdgeInsetsMake(9.5, 7, 9.5, 7)];
+    [_switchCameraBtn addTarget:self action:@selector(switchCameraBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _switchCameraBtn.autoresizingMask =
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+    [self.verticalBackgroundLayer addSubview:_switchCameraBtn];
     
-    _saveBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_saveBtn addTarget:self action:@selector(saveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_saveBtn setImage:downloadImg forState:UIControlStateNormal];
-    [_saveBtn setTintColor:[self blueColor]];
-    [_saveBtn setImageEdgeInsets:UIEdgeInsetsMake(7, 10.5, 7, 10.5)];
-    
-    _captureBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    // Capture image button
+    frame.size = captureImg.size;
+    frame.origin.x = (self.verticalBackgroundLayer.frame.size.width - frame.size.width)/2;
+    frame.origin.y = (self.verticalBackgroundLayer.frame.size.height - frame.size.height)/2;
+    _captureBtn = [[UIButton alloc] initWithFrame:frame];
+    [_captureBtn setImage:captureImg forState:UIControlStateNormal];
     [_captureBtn addTarget:self action:@selector(captureBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_captureBtn setTitle:NSLocalizedString(@"C\nA\nP\nT\nU\nR\nE", @"SimpleCam CAPTURE button for horizontal") forState:UIControlStateNormal];
-    [_captureBtn setTitleColor:[self darkGreyColor] forState:UIControlStateNormal];
-    _captureBtn.titleLabel.font = [UIFont systemFontOfSize:12.5];
-    _captureBtn.titleLabel.numberOfLines = 0;
-    _captureBtn.titleLabel.minimumScaleFactor = .5;
-    // -- LOAD BUTTONS END -- //
+    _captureBtn.autoresizingMask =
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+    [self.verticalBackgroundLayer addSubview:_captureBtn];
+    // -- VERTICAL BACKGROUND LAYER END -- //
     
-    // Stylize buttons
-    for (UIButton * btn in @[_backBtn, _captureBtn, _switchCameraBtn, _saveBtn])  {
-        
-        btn.bounds = CGRectMake(0, 0, 40, 40);
-        btn.backgroundColor = [UIColor colorWithWhite:1 alpha:.96];
-        btn.alpha = optionAvailableAlpha;
-        btn.hidden = YES;
-        
-        btn.layer.shouldRasterize = YES;
-        btn.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        btn.layer.cornerRadius = 4;
-        
-        btn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        btn.layer.borderWidth = 0.5;
-        
-        [self.view addSubview:btn];
-    }
+    // -- HORIZONTAL BACKGROUND LAYER START -- //
+    CGFloat height = screenHeight * 0.08;
+    frame.size = CGSizeMake(self.view.frame.size.width, height);
+    frame.origin.x = 0;
+    frame.origin.y = self.view.frame.size.height - height;
+    self.horizontalBackgroundLayer = [[UIView alloc] initWithFrame:frame];
+    self.horizontalBackgroundLayer.backgroundColor = [UIColor blackColor];
+    self.horizontalBackgroundLayer.backgroundColor = [UIColor colorWithRed:0
+                                                                   green:0
+                                                                    blue:0
+                                                                   alpha:0.3f];
+    self.horizontalBackgroundLayer.autoresizingMask =
+        UIViewAutoresizingFlexibleWidth |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleLeftMargin;
+    
+    [self.view addSubview:self.horizontalBackgroundLayer];
+    
+    // Save button
+    frame.size = CGSizeMake(120, 40);
+    frame.origin.x = (self.horizontalBackgroundLayer.frame.size.width - frame.size.width);
+    frame.origin.y = (self.horizontalBackgroundLayer.frame.size.height - frame.size.height)/2;
+    _saveBtn = [[UIButton alloc] initWithFrame:frame];
+    [_saveBtn setTitle:@"Use Photo" forState:UIControlStateNormal];
+    [_saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _saveBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    _saveBtn.titleLabel.numberOfLines = 0;
+    _saveBtn.titleLabel.minimumScaleFactor = .5;
+    _saveBtn.bounds = CGRectMake(0, 0, 120, 40);
+    [_saveBtn addTarget:self action:@selector(saveBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _saveBtn.autoresizingMask =
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+    [self.horizontalBackgroundLayer addSubview:_saveBtn];
+    
+    // Retake photo button
+    frame.origin.x = 0;
+    _retakeBtn = [[UIButton alloc] initWithFrame:frame];
+    [_retakeBtn setTitle:@"Retake" forState:UIControlStateNormal];
+    [_retakeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _retakeBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    _retakeBtn.titleLabel.numberOfLines = 0;
+    _retakeBtn.titleLabel.minimumScaleFactor = .5;
+    _retakeBtn.bounds = CGRectMake(0, 0, 120, 40);
+    [_retakeBtn addTarget:self action:@selector(retakeBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _retakeBtn.autoresizingMask =
+        UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+    [self.horizontalBackgroundLayer addSubview:_retakeBtn];
+    
+    // -- HORIZONTAL BACKGROUND LAYER END -- //
     
     // If a device doesn't have multiple cameras, fade out button ...
     if ([AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo].count == 1) {
@@ -386,83 +460,17 @@ static CGFloat optionUnavailableAlpha = 0.2;
 - (void) drawControls {
     
     if (self.hideAllControls) {
-        
-        // In case they want to hide after they've been displayed
-        // for (UIButton * btn in @[_backBtn, _captureBtn, _flashBtn, _switchCameraBtn, _saveBtn]) {
-        // btn.hidden = YES;
-        // }
         return;
     }
     
-    static int offsetFromSide = 10;
-    static int offsetBetweenButtons = 20;
-    
-    static CGFloat portraitFontSize = 16.0;
-    static CGFloat landscapeFontSize = 12.5;
-    
     [UIView animateWithDuration:self.controlAnimateDuration delay:0 options:UIViewAnimationOptionCurveEaseOut  animations:^{
-        
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-            
-            CGFloat centerY = screenHeight - 8 - 20; // 8 is offset from bottom (portrait), 20 is half btn height
-            
-            _backBtn.center = CGPointMake(offsetFromSide + (_backBtn.bounds.size.width / 2), centerY);
-            
-            // offset from backbtn is '20'
-            [_captureBtn setTitle:NSLocalizedString(@"CAPTURE", @"SimpleCam CAPTURE button") forState:UIControlStateNormal];
-            _captureBtn.titleLabel.font = [UIFont systemFontOfSize:portraitFontSize];
-            _captureBtn.bounds = CGRectMake(0, 0, 120, 40);
-            _captureBtn.center = CGPointMake(_backBtn.center.x + (_backBtn.bounds.size.width / 2) + offsetBetweenButtons + (_captureBtn.bounds.size.width / 2), centerY);
-            
-            // offset from capturebtn is '20'
-            _switchCameraBtn.center = CGPointMake(_captureBtn.center.x + (_captureBtn.bounds.size.width / 2) + offsetBetweenButtons + (_switchCameraBtn.bounds.size.width / 2), centerY);
-            
-        }
-        else {
-            CGFloat centerX = screenHeight - 8 - 20; // 8 is offset from side(landscape), 20 is half btn height
-            
-            // offset from side is '10'
-            _backBtn.center = CGPointMake(centerX, offsetFromSide + (_backBtn.bounds.size.height / 2));
-            
-            // offset from backbtn is '20'
-            [_captureBtn setTitle:NSLocalizedString(@"C\nA\nP\nT\nU\nR\nE", @"SimpleCam CAPTURE button for horizontal") forState:UIControlStateNormal];
-            _captureBtn.titleLabel.font = [UIFont systemFontOfSize:landscapeFontSize];
-            _captureBtn.bounds = CGRectMake(0, 0, 40, 120);
-            _captureBtn.center = CGPointMake(centerX, _backBtn.center.y + (_backBtn.bounds.size.height / 2) + offsetBetweenButtons + (_captureBtn.bounds.size.height / 2));
-            
-            // offset from capturebtn is '20'
-            _switchCameraBtn.center = CGPointMake(centerX, _captureBtn.center.y + (_captureBtn.bounds.size.height / 2) + offsetBetweenButtons + (_switchCameraBtn.bounds.size.height / 2));
-        }
-        
-        // just so it's ready when we need it to be.
-        _saveBtn.frame = _switchCameraBtn.frame;
-        
-        /*
-         Show the proper controls for picture preview and picture stream
-         */
-        
-        // If camera preview -- show preview controls / hide capture controls
-        if (_capturedImageV.image) {
-            // Hide
-            for (UIButton * btn in @[_captureBtn, _switchCameraBtn]) btn.hidden = YES;
-            // Show
-            _saveBtn.hidden = NO;
-            
-            
-            // Force User Preference
-            _backBtn.hidden = _hideBackButton;
-        }
-        // ELSE camera stream -- show capture controls / hide preview controls
-        else {
-            // Show
-            for (UIButton * btn in @[_switchCameraBtn]) btn.hidden = NO;
-            // Hide
-            _saveBtn.hidden = YES;
-            
-            // Force User Preference
-            _captureBtn.hidden = _hideCaptureButton;
-            _backBtn.hidden = _hideBackButton;
-        }
+            if (_capturedImageV.image) {
+                [_verticalBackgroundLayer setHidden:YES];
+                [_horizontalBackgroundLayer setHidden:NO];
+            } else {
+                [_verticalBackgroundLayer setHidden:NO];
+                [_horizontalBackgroundLayer setHidden:YES];
+            }
     } completion:nil];
 }
 
@@ -595,6 +603,10 @@ static CGFloat optionUnavailableAlpha = 0.2;
     if (![self retakePhoto]) {
         [_delegate simpleCam:self didFinishWithImage:_capturedImage];
     }
+}
+
+- (void) retakeBtnPressed:(id)sender {
+    [self retakePhoto];
 }
 
 - (void) switchCameraBtnPressed:(id)sender {
