@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleCam" customModule="SimpleCam" customModuleProvider="target">
+            <connections>
+                <outlet property="backBtn" destination="0uA-9d-mU1" id="dcL-ON-ktu"/>
+                <outlet property="cameraCaptureFlashAnimation" destination="DWv-M7-XgF" id="6di-BG-SMf"/>
+                <outlet property="captureBtn" destination="u9c-zL-H9p" id="RCA-qn-tLF"/>
+                <outlet property="capturedImageV" destination="ttM-oJ-diF" id="UKj-hV-HPu"/>
+                <outlet property="horizontalBar" destination="ok2-rE-4Fk" id="9fp-z5-eVr"/>
+                <outlet property="imageStreamV" destination="iIx-16-Ado" id="7Eb-68-LxJ"/>
+                <outlet property="retakeBtn" destination="cvA-07-VlS" id="ccM-5e-W5T"/>
+                <outlet property="saveBtn" destination="aEI-jg-7wy" id="4wU-zJ-D2I"/>
+                <outlet property="switchCameraBtn" destination="cZR-fK-chV" id="E6K-E1-IBx"/>
+                <outlet property="verticalBar" destination="ZtG-g2-4O4" id="AF1-u2-x6u"/>
+                <outlet property="view" destination="y5X-jw-pDR" id="PW0-F1-2d7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="y5X-jw-pDR">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iIx-16-Ado" userLabel="imageStream">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="giF-8f-ydS" appends="YES" id="Qhr-br-9vj"/>
+                        <outletCollection property="gestureRecognizers" destination="pbV-1F-OJf" appends="YES" id="YLG-ow-FeM"/>
+                    </connections>
+                </view>
+                <imageView hidden="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ttM-oJ-diF" userLabel="capturedImage">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <gestureRecognizers/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZtG-g2-4O4" userLabel="verticalBar">
+                    <rect key="frame" x="0.0" y="636" width="414" height="100"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZR-fK-chV" userLabel="switchCameraBtn">
+                            <rect key="frame" x="340" y="23" width="54" height="54"/>
+                            <state key="normal" image="Rotate"/>
+                            <state key="highlighted" image="Rotate"/>
+                            <connections>
+                                <action selector="switchCameraBtnPressed:" destination="-1" eventType="touchUpInside" id="7VD-sz-Etl"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9c-zL-H9p" userLabel="captureBtn">
+                            <rect key="frame" x="172.66666666666666" y="15.666666666666629" width="70" height="70"/>
+                            <state key="normal" image="ShutterNormal"/>
+                            <state key="highlighted" image="ShutterHighlighted"/>
+                            <connections>
+                                <action selector="captureBtnPressed:" destination="-1" eventType="touchUpInside" id="vq4-Aq-yzS"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uA-9d-mU1" userLabel="backBtn">
+                            <rect key="frame" x="20" y="33" width="56" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="jQW-JX-LEm"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="cZR-fK-chV" firstAttribute="centerY" secondItem="ZtG-g2-4O4" secondAttribute="centerY" id="174-GT-xVy"/>
+                        <constraint firstItem="0uA-9d-mU1" firstAttribute="centerY" secondItem="ZtG-g2-4O4" secondAttribute="centerY" id="7V0-2w-WIk"/>
+                        <constraint firstItem="u9c-zL-H9p" firstAttribute="centerX" secondItem="ZtG-g2-4O4" secondAttribute="centerX" id="8aJ-IQ-rju"/>
+                        <constraint firstItem="0uA-9d-mU1" firstAttribute="leading" secondItem="ZtG-g2-4O4" secondAttribute="leading" constant="20" id="A2a-9h-2vy"/>
+                        <constraint firstItem="cZR-fK-chV" firstAttribute="centerX" secondItem="ZtG-g2-4O4" secondAttribute="centerX" id="AV7-Et-fX8"/>
+                        <constraint firstItem="0uA-9d-mU1" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ZtG-g2-4O4" secondAttribute="trailing" id="Sd3-jV-hz6"/>
+                        <constraint firstItem="cZR-fK-chV" firstAttribute="trailing" secondItem="ZtG-g2-4O4" secondAttribute="trailing" constant="20" id="VLa-si-IXp">
+                            <variation key="heightClass=regular-widthClass=compact" constant="-20"/>
+                        </constraint>
+                        <constraint firstAttribute="height" constant="100" id="a0m-i6-6d7"/>
+                        <constraint firstItem="cZR-fK-chV" firstAttribute="top" secondItem="ZtG-g2-4O4" secondAttribute="top" constant="20" id="c6V-Jy-FMR"/>
+                        <constraint firstItem="0uA-9d-mU1" firstAttribute="bottom" secondItem="ZtG-g2-4O4" secondAttribute="bottom" constant="-20" id="cIG-lE-EXI"/>
+                        <constraint firstAttribute="width" constant="100" id="jbl-KG-jJr"/>
+                        <constraint firstItem="u9c-zL-H9p" firstAttribute="centerY" secondItem="ZtG-g2-4O4" secondAttribute="centerY" id="rrj-wS-9hY"/>
+                        <constraint firstItem="0uA-9d-mU1" firstAttribute="centerX" secondItem="ZtG-g2-4O4" secondAttribute="centerX" id="uv7-Hi-SzE"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="a0m-i6-6d7"/>
+                            <exclude reference="jbl-KG-jJr"/>
+                            <exclude reference="174-GT-xVy"/>
+                            <exclude reference="AV7-Et-fX8"/>
+                            <exclude reference="VLa-si-IXp"/>
+                            <exclude reference="c6V-Jy-FMR"/>
+                            <exclude reference="7V0-2w-WIk"/>
+                            <exclude reference="A2a-9h-2vy"/>
+                            <exclude reference="Sd3-jV-hz6"/>
+                            <exclude reference="cIG-lE-EXI"/>
+                            <exclude reference="uv7-Hi-SzE"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=regular">
+                        <mask key="constraints">
+                            <include reference="jbl-KG-jJr"/>
+                            <include reference="AV7-Et-fX8"/>
+                            <include reference="c6V-Jy-FMR"/>
+                            <include reference="cIG-lE-EXI"/>
+                            <include reference="uv7-Hi-SzE"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=compact-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="jbl-KG-jJr"/>
+                            <include reference="AV7-Et-fX8"/>
+                            <include reference="c6V-Jy-FMR"/>
+                            <include reference="cIG-lE-EXI"/>
+                            <include reference="uv7-Hi-SzE"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="a0m-i6-6d7"/>
+                            <include reference="174-GT-xVy"/>
+                            <include reference="VLa-si-IXp"/>
+                            <include reference="7V0-2w-WIk"/>
+                            <include reference="A2a-9h-2vy"/>
+                            <include reference="Sd3-jV-hz6"/>
+                        </mask>
+                    </variation>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ok2-rE-4Fk" userLabel="horizontalBar">
+                    <rect key="frame" x="0.0" y="636" width="414" height="100"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvA-07-VlS" userLabel="retakeBtn">
+                            <rect key="frame" x="40" y="33.666666666666629" width="56" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="Retake">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="retakeBtnPressed:" destination="-1" eventType="touchUpInside" id="E7v-88-nbl"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEI-jg-7wy" userLabel="useBtn">
+                            <rect key="frame" x="289" y="32.666666666666629" width="85" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="Use Photo">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="saveBtnPressed:" destination="-1" eventType="touchUpInside" id="Xsa-XN-zRM"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.30401862157534248" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="6tK-ph-3Dx"/>
+                        <constraint firstItem="cvA-07-VlS" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ok2-rE-4Fk" secondAttribute="trailing" id="A5Q-xQ-ozz"/>
+                        <constraint firstItem="aEI-jg-7wy" firstAttribute="centerY" secondItem="ok2-rE-4Fk" secondAttribute="centerY" id="SLP-fc-KgA"/>
+                        <constraint firstItem="aEI-jg-7wy" firstAttribute="trailing" secondItem="ok2-rE-4Fk" secondAttribute="trailing" constant="-40" id="nMn-dc-5V5"/>
+                        <constraint firstItem="cvA-07-VlS" firstAttribute="centerY" secondItem="ok2-rE-4Fk" secondAttribute="centerY" id="ojc-mf-HJa"/>
+                        <constraint firstItem="cvA-07-VlS" firstAttribute="leading" secondItem="ok2-rE-4Fk" secondAttribute="leading" constant="40" id="ptY-lJ-MyV"/>
+                        <constraint firstItem="aEI-jg-7wy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ok2-rE-4Fk" secondAttribute="leading" id="s5n-Q0-1Cp"/>
+                    </constraints>
+                </view>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWv-M7-XgF" userLabel="flashAnimation">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="ttM-oJ-diF" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="00F-Va-9Za"/>
+                <constraint firstItem="ok2-rE-4Fk" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="2k8-5c-VeC"/>
+                <constraint firstItem="DWv-M7-XgF" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="7R2-N6-rhi"/>
+                <constraint firstItem="ttM-oJ-diF" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="8hs-yu-5cU"/>
+                <constraint firstItem="ZtG-g2-4O4" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="9dA-AZ-KtH"/>
+                <constraint firstItem="ZtG-g2-4O4" firstAttribute="top" secondItem="y5X-jw-pDR" secondAttribute="top" id="Caw-7G-918"/>
+                <constraint firstItem="ZtG-g2-4O4" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="GJG-US-cOC"/>
+                <constraint firstItem="DWv-M7-XgF" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="MGK-gC-7Qg"/>
+                <constraint firstItem="ttM-oJ-diF" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="NVY-vD-cIK"/>
+                <constraint firstItem="ok2-rE-4Fk" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="SGT-16-51e"/>
+                <constraint firstItem="DWv-M7-XgF" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="hbn-pg-wr8"/>
+                <constraint firstItem="ZtG-g2-4O4" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="huF-jE-vor"/>
+                <constraint firstItem="ok2-rE-4Fk" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="lWM-0z-i7E"/>
+                <constraint firstItem="ttM-oJ-diF" firstAttribute="top" secondItem="y5X-jw-pDR" secondAttribute="top" id="pu5-FS-CaF"/>
+                <constraint firstItem="DWv-M7-XgF" firstAttribute="top" secondItem="y5X-jw-pDR" secondAttribute="top" id="sJx-HB-IkY"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="Caw-7G-918"/>
+                    <exclude reference="GJG-US-cOC"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=regular">
+                <mask key="constraints">
+                    <include reference="Caw-7G-918"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=compact-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="Caw-7G-918"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="GJG-US-cOC"/>
+                </mask>
+            </variation>
+        </view>
+        <tapGestureRecognizer id="pbV-1F-OJf" userLabel="focusTap">
+            <connections>
+                <action selector="tapSent:" destination="-1" id="zkU-Pf-ujv"/>
+            </connections>
+        </tapGestureRecognizer>
+        <pinchGestureRecognizer id="giF-8f-ydS" userLabel="zoomPinch">
+            <connections>
+                <action selector="pinchToZoom:" destination="-1" id="Q92-or-6p2"/>
+            </connections>
+        </pinchGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="Rotate" width="54" height="54"/>
+        <image name="ShutterHighlighted" width="70" height="70"/>
+        <image name="ShutterNormal" width="70" height="70"/>
+    </resources>
+</document>
