@@ -18,7 +18,7 @@ I hope you find the project as useful as I did!
 - Drag SimpleCam Folder into your Xcode project
 - Make sure "Copy items into destination group's folder (if needed)" is selected
 
-### 2. Your ViewController.h File
+### 2. Your ViewController.swift File
 
 - Import SimpleCam
 - Set up your view controller as a SimpleCam delegate
@@ -32,9 +32,9 @@ class ViewController : UIViewController {
 }
 ```
 
-###3. Set Up Delegate
+### 3. Set Up Delegate
 
-- Add SimpleCam's Delegate method to your ViewController.m file
+- Add SimpleCam's Delegate method to your ViewController.swift file
 - Close SimpleCam
 
 This is how SimpleCam will notify your ViewController that the user is finished with it.  If there is an image, then the user took a picture.  If there is not, then the user backed out of the camera without taking a photograph.  Make sure to close SimpleCam in this method using SimpleCam's custom close.  Otherwise, the captureSession may not close properly and may result in memory leaks.
@@ -59,7 +59,7 @@ extension ViewController : SimpleCamDelegate {
 }
 ```
 
-###4. Launch SimpleCam
+### 4. Launch SimpleCam
 
 - Add this code wherever you'd like SimpleCam to launch
 
