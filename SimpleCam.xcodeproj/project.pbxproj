@@ -87,7 +87,6 @@
 		71BC01201FBC4258003E4CF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		71BC01221FBC4258003E4CF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71BC012F1FBC7174003E4CF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SimpleCam.xib; sourceTree = "<group>"; };
-		71BC01321FBC7222003E4CF7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleCam.strings; sourceTree = "<group>"; };
 		71BC01341FBC7241003E4CF7 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/SimpleCam.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -402,7 +401,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				71BC012F1FBC7174003E4CF7 /* Base */,
-				71BC01321FBC7222003E4CF7 /* en */,
 				71BC01341FBC7241003E4CF7 /* ja */,
 			);
 			name = SimpleCam.xib;
