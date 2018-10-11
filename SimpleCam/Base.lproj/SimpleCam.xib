@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleCam" customModule="SimpleCam" customModuleProvider="target">
             <connections>
                 <outlet property="backBtn" destination="0uA-9d-mU1" id="dcL-ON-ktu"/>
+                <outlet property="biasSlider" destination="bWJ-Jc-Pdo" id="fYC-g9-XeW"/>
                 <outlet property="cameraCaptureFlashAnimation" destination="DWv-M7-XgF" id="6di-BG-SMf"/>
                 <outlet property="captureBtn" destination="u9c-zL-H9p" id="RCA-qn-tLF"/>
                 <outlet property="capturedImageV" destination="ttM-oJ-diF" id="UKj-hV-HPu"/>
@@ -26,7 +27,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="y5X-jw-pDR">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iIx-16-Ado" userLabel="imageStream">
@@ -39,14 +40,26 @@
                     </connections>
                 </view>
                 <imageView hidden="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ttM-oJ-diF" userLabel="capturedImage">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <gestureRecognizers/>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="☼" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEm-vR-fQB">
+                    <rect key="frame" x="101" y="970.5" width="29" height="38.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bWJ-Jc-Pdo" userLabel="biasSlider">
+                    <rect key="frame" x="148" y="974" width="472" height="31"/>
+                    <connections>
+                        <action selector="setExposureBias:" destination="-1" eventType="valueChanged" id="tc6-ud-i6b"/>
+                    </connections>
+                </slider>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZtG-g2-4O4" userLabel="verticalBar">
-                    <rect key="frame" x="0.0" y="636" width="414" height="100"/>
+                    <rect key="frame" x="668" y="0.0" width="100" height="1024"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZR-fK-chV" userLabel="switchCameraBtn">
-                            <rect key="frame" x="340" y="23" width="54" height="54"/>
+                            <rect key="frame" x="23" y="20" width="54" height="54"/>
                             <state key="normal" image="Rotate"/>
                             <state key="highlighted" image="Rotate"/>
                             <connections>
@@ -54,7 +67,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9c-zL-H9p" userLabel="captureBtn">
-                            <rect key="frame" x="172.66666666666666" y="15.666666666666629" width="70" height="70"/>
+                            <rect key="frame" x="15" y="477" width="70" height="70"/>
                             <state key="normal" image="ShutterNormal"/>
                             <state key="highlighted" image="ShutterHighlighted"/>
                             <connections>
@@ -62,7 +75,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uA-9d-mU1" userLabel="backBtn">
-                            <rect key="frame" x="20" y="33" width="56" height="34"/>
+                            <rect key="frame" x="22" y="970" width="56" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" title="Cancel">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -135,10 +148,10 @@
                     </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ok2-rE-4Fk" userLabel="horizontalBar">
-                    <rect key="frame" x="0.0" y="636" width="414" height="100"/>
+                    <rect key="frame" x="0.0" y="924" width="768" height="100"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvA-07-VlS" userLabel="retakeBtn">
-                            <rect key="frame" x="40" y="33.666666666666629" width="56" height="34"/>
+                            <rect key="frame" x="40" y="33" width="56" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" title="Retake">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -148,7 +161,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEI-jg-7wy" userLabel="useBtn">
-                            <rect key="frame" x="289" y="32.666666666666629" width="85" height="34"/>
+                            <rect key="frame" x="643" y="33" width="85" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" title="Use Photo">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -170,27 +183,32 @@
                     </constraints>
                 </view>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWv-M7-XgF" userLabel="flashAnimation">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="ttM-oJ-diF" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="00F-Va-9Za"/>
+                <constraint firstAttribute="trailing" secondItem="bWJ-Jc-Pdo" secondAttribute="trailing" constant="150" id="05t-ru-H66"/>
                 <constraint firstItem="ok2-rE-4Fk" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="2k8-5c-VeC"/>
                 <constraint firstItem="DWv-M7-XgF" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="7R2-N6-rhi"/>
                 <constraint firstItem="ttM-oJ-diF" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="8hs-yu-5cU"/>
                 <constraint firstItem="ZtG-g2-4O4" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="9dA-AZ-KtH"/>
+                <constraint firstItem="bWJ-Jc-Pdo" firstAttribute="centerY" secondItem="cEm-vR-fQB" secondAttribute="centerY" id="Buz-gG-qfV"/>
                 <constraint firstItem="ZtG-g2-4O4" firstAttribute="top" secondItem="y5X-jw-pDR" secondAttribute="top" id="Caw-7G-918"/>
+                <constraint firstItem="bWJ-Jc-Pdo" firstAttribute="leading" secondItem="cEm-vR-fQB" secondAttribute="trailing" constant="20" id="FAY-ZU-jaC"/>
                 <constraint firstItem="ZtG-g2-4O4" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" id="GJG-US-cOC"/>
                 <constraint firstItem="DWv-M7-XgF" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="MGK-gC-7Qg"/>
                 <constraint firstItem="ttM-oJ-diF" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="NVY-vD-cIK"/>
+                <constraint firstItem="bWJ-Jc-Pdo" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" constant="-20" id="RRX-vT-opM"/>
                 <constraint firstItem="ok2-rE-4Fk" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="SGT-16-51e"/>
                 <constraint firstItem="DWv-M7-XgF" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="hbn-pg-wr8"/>
                 <constraint firstItem="ZtG-g2-4O4" firstAttribute="trailing" secondItem="y5X-jw-pDR" secondAttribute="trailing" id="huF-jE-vor"/>
                 <constraint firstItem="ok2-rE-4Fk" firstAttribute="bottom" secondItem="y5X-jw-pDR" secondAttribute="bottom" id="lWM-0z-i7E"/>
                 <constraint firstItem="ttM-oJ-diF" firstAttribute="top" secondItem="y5X-jw-pDR" secondAttribute="top" id="pu5-FS-CaF"/>
                 <constraint firstItem="DWv-M7-XgF" firstAttribute="top" secondItem="y5X-jw-pDR" secondAttribute="top" id="sJx-HB-IkY"/>
+                <constraint firstItem="bWJ-Jc-Pdo" firstAttribute="leading" secondItem="y5X-jw-pDR" secondAttribute="leading" constant="150" id="xPT-8a-6hF"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">

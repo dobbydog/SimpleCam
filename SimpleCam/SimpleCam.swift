@@ -97,6 +97,7 @@ public class SimpleCam : UIViewController {
     @IBOutlet weak var switchCameraBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var retakeBtn: UIButton!
+    @IBOutlet weak var biasSlider: UISlider!
     private var session: AVCaptureSession!
     private var stillImageOutput: AVCaptureStillImageOutput!
     fileprivate var _photoOutput: Any!
@@ -268,6 +269,10 @@ public class SimpleCam : UIViewController {
         if AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).count == 1 {
             switchCameraBtn.isEnabled = false
         }
+        
+        biasSlider.minimumValue = -1.0
+        biasSlider.maximumValue = 1.0
+        biasSlider.value = 0
         
         // Draw camera controls
         drawControls()
@@ -466,7 +471,7 @@ public class SimpleCam : UIViewController {
 
         if capturedImageV.image != nil { return }
         guard let target = tap.view else { return }
-        guard currentDevice.isFocusPointOfInterestSupported, currentDevice.isFocusModeSupported(.autoFocus) else {
+        guard currentDevice.isFocusPointOfInterestSupported, currentDevice.isFocusModeSupported(.continuousAutoFocus) else {
             print("SC: focusPointOfInterest or auto focus not supported on current device")
             return
         }
@@ -490,9 +495,11 @@ public class SimpleCam : UIViewController {
             try currentDevice.lockForConfiguration()
             session.beginConfiguration()
             currentDevice.focusPointOfInterest = CGPoint(x: focusX, y: focusY)
-            currentDevice.focusMode = .autoFocus
+            currentDevice.focusMode = .continuousAutoFocus
             currentDevice.exposurePointOfInterest = CGPoint(x: focusX, y: focusY)
             currentDevice.exposureMode = .continuousAutoExposure
+            currentDevice.setExposureTargetBias(0, completionHandler: nil)
+            biasSlider.setValue(0, animated: true)
             session.commitConfiguration()
             currentDevice.unlockForConfiguration()
         } catch let error {
@@ -524,6 +531,25 @@ public class SimpleCam : UIViewController {
         }
     }
 
+    // MARK: EXPOSURE ADJUST
+    
+    @IBAction func setExposureBias(_ sender: UISlider!) {
+        let p = abs(sender.value)
+        let biasMin = currentDevice.minExposureTargetBias
+        let biasMax = currentDevice.maxExposureTargetBias
+        let newBias = sender.value > 0 ? p * biasMax * 0.5 : p * biasMin
+
+        do {
+            try currentDevice.lockForConfiguration()
+            session.beginConfiguration()
+            currentDevice.setExposureTargetBias(newBias, completionHandler: nil)
+            session.commitConfiguration()
+            currentDevice.unlockForConfiguration()
+        } catch let error {
+            print("SC: ERROR: lock for camera configuration: \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: RESIZE IMAGE
 
     func calculateBounds(for src:CGSize, withTarget target:CGSize) -> CGRect {

@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7119FDE320E62F9000911E43 /* SimpleCam.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 718751441FB302E50045E213 /* SimpleCam.framework */; };
 		7187514E1FB302E50045E213 /* SimpleCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718751441FB302E50045E213 /* SimpleCam.framework */; };
 		718751881FB4038A0045E213 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 718751871FB4038A0045E213 /* Icons.xcassets */; };
 		7187518A1FB431010045E213 /* SimpleCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718751891FB431010045E213 /* SimpleCam.swift */; };
@@ -56,6 +57,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7119FDE220E62F4700911E43 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(BUILD_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				7119FDE320E62F9000911E43 /* SimpleCam.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		71BC012B1FBC4E97003E4CF7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -87,7 +98,6 @@
 		71BC01201FBC4258003E4CF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		71BC01221FBC4258003E4CF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71BC012F1FBC7174003E4CF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SimpleCam.xib; sourceTree = "<group>"; };
-		71BC01321FBC7222003E4CF7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleCam.strings; sourceTree = "<group>"; };
 		71BC01341FBC7241003E4CF7 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/SimpleCam.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +208,7 @@
 				718751401FB302E50045E213 /* Frameworks */,
 				718751411FB302E50045E213 /* Headers */,
 				718751421FB302E50045E213 /* Resources */,
+				7119FDE220E62F4700911E43 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -402,7 +413,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				71BC012F1FBC7174003E4CF7 /* Base */,
-				71BC01321FBC7222003E4CF7 /* en */,
 				71BC01341FBC7241003E4CF7 /* ja */,
 			);
 			name = SimpleCam.xib;
@@ -414,6 +424,7 @@
 		718751561FB302E50045E213 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -473,6 +484,7 @@
 		718751571FB302E50045E213 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -526,7 +538,7 @@
 		718751591FB302E50045E213 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -553,7 +565,7 @@
 		7187515A1FB302E50045E213 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
