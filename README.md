@@ -1,4 +1,4 @@
-<h1 align="center">SimpleCam iPad</h1>
+<h1 align="center">SimpleCam</h1>
 
 <h4 align="center">A Memory Efficient Replacement for the Native UIImagePicker Camera</h4>
 
@@ -10,41 +10,40 @@ If you're capturing photographs with UIImagePicker, or via AVFoundation on the h
 
 I hope you find the project as useful as I did!
 
-#Adding SimpleCam iPad to Your Project
+# Adding SimpleCam iPad to Your Project
 
-###1. Add SimpleCam Folder to Xcode
+### 1. Add SimpleCam Folder to Xcode
 
 - Unzip SimpleCam
 - Drag SimpleCam Folder into your Xcode project
 - Make sure "Copy items into destination group's folder (if needed)" is selected
 
-###2. Your ViewController.h File
+### 2. Your ViewController.swift File
 
 - Import SimpleCam
 - Set up your view controller as a SimpleCam delegate
 
-```Obj-C
-#import <UIKit/UIKit.h>
-#import "SimpleCam.h"
+```Swift
+import UIKit
+import SimpleCam
 
-@interface ViewController : UIViewController <SimpleCamDelegate>
-
-@end
+class ViewController : UIViewController {
+  ...
+}
 ```
 
-###3. Set Up Delegate
+### 3. Set Up Delegate
 
-- Add SimpleCam's Delegate method to your ViewController.m file
+- Add SimpleCam's Delegate method to your ViewController.swift file
 - Close SimpleCam
 
 This is how SimpleCam will notify your ViewController that the user is finished with it.  If there is an image, then the user took a picture.  If there is not, then the user backed out of the camera without taking a photograph.  Make sure to close SimpleCam in this method using SimpleCam's custom close.  Otherwise, the captureSession may not close properly and may result in memory leaks.
 
-```Obj-C
-#pragma mark SIMPLE CAM DELEGATE
-
-- (void) simpleCam:(SimpleCam *)simpleCam didFinishWithImage:(UIImage *)image {
+```Swift
+extension ViewController : SimpleCamDelegate {
+  func simpleCam(_ simpleCam: SimpleCam, didFinishWithImage image: UIImage?) {
     
-    if (image) {
+    if (image != nil) {
         // simple cam finished with image
     }
     else {
@@ -52,34 +51,34 @@ This is how SimpleCam will notify your ViewController that the user is finished 
     }
     
     // Close simpleCam - use this as opposed to dismissViewController: to properly end photo session
-    [simpleCam closeWithCompletion:^{
-        NSLog(@"SimpleCam is done closing ... ");
-        // It is safe to launch other ViewControllers, for instance, an editor here.
-    }];
+    simpleCam.closeWithCompletion {
+      print("SimpleCam is done closing ... ");
+      // It is safe to launch other ViewControllers, for instance, an editor here.
+    };
+  }
 }
 ```
 
-###4. Launch SimpleCam
+### 4. Launch SimpleCam
 
 - Add this code wherever you'd like SimpleCam to launch
 
-```Obj-C
-SimpleCam * simpleCam = [[SimpleCam alloc]init];
+```Swift
+let simpleCam = SimpleCam();
 simpleCam.delegate = self;    
-[self presentViewController:simpleCam animated:YES completion:nil];
+present(simpleCam, animated: true, completion: nil);
 ```
 If you'd like to launch simple cam when the user presses a button, you could add the above code to the buttonPress method, like so:
 
-```Obj-C
-- (void) buttonPress:(id)sender {        
-  SimpleCam * simpleCam = [[SimpleCam alloc]init];
+```Swift
+@IBAction func buttonTap(_ recognizer: UITapGestureRecognizer) {        
+  let simpleCam = SimpleCam();
   simpleCam.delegate = self;    
-  [self presentViewController:simpleCam animated:YES completion:nil];
+  present(simpleCam, animated: true, completion: nil);
 }
 ```
 That's it, it's as  simple as that.  SimpleCam will take care of everything else!
 
-#Notes
+# Notes
 
-- Forked from https://github.com/LoganWright/SimpleCam
-
+- This project is forked from [LoganWright/SimpleCam](https://github.com/LoganWright/SimpleCam) -> [modohash/SimpleCam](https://github.com/modohash/SimpleCam) and rewritten in Swift and XIB
